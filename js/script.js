@@ -1,6 +1,8 @@
 var NUM_ROWS;
 var STITCHES_PER_ROW;
-var CURRENT_PATTERN = [];
+var currentPattern = [];
+var currentRow = [];
+var stopProgram = false;
 
 function sayHello() {
 	console.log("Hello world");
@@ -26,38 +28,104 @@ function Stitch(isPurl, color) {
 }
 
 function showError(errorMsg) {
-    $("#error").append("<p class='error'" + error + "</p>");
+    $("#error").append("<p class='error'" + errorMsg + "</p>");
+    console.log(errorMsg);
 }
 
 function setNumberOfRows(numRows) {
+    console.log(numRows);
     NUM_ROWS = numRows;
 }
 
 function setStitchesPerRow(numStitches) {
-    STITCHES_PER_ROW = stitches;
+    STITCHES_PER_ROW = numStitches;
+}
+
+function addStitches(numStitches, isPurl) {
+    if(numStitches > STITCHES_PER_ROW) {
+        showError("Tried to add more stitches than fit in the row");
+        // TODO: stop the program
+    }
+    for(var i = 0; i < numStitches; i++) {
+        var newStitch = new Stitch(isPurl, currentColor);
+        currentRow.push(newStitch);
+    }
+    checkForRowEnd();
+}
+
+function purl(numStitches) {
+    addStitches(numStitches, true);
+}
+
+function knit(numStitches) {
+    addStitches(numStitches, false);
+}
+
+function changeColor(newColor) {
+    // TODO: handle out-of-bounds colors
+    currentColor = newColor;
+}
+
+function checkForRowEnd() {
+    if(currentRow.length == STITCHES_PER_ROW) {
+        currentPattern.push(currentRow);
+        currentRow = [];
+    }
+}
+
+function knitRow() {
+    if(currentRow.length != 0) {
+        showError("Tried to add full row when other stitches were already in row");
+    }
+    knit(STITCHES_PER_ROW);
+}
+
+function purlRow() {
+    if(currentRow.length != 0) {
+        showError("Tried to add full row when other stitches were already in row");
+    }
+    purl(STITCHES_PER_ROW);
 }
 
 
 
 function translateCodeToPattern() {
-        var code = $("textarea").val();
+    console.log("got code, starting translation...");
+    currentColor = "white";
+    var code = $("textarea").val();
+    try {
         eval(code);
-        // TODO: handle error messages
+    }
+    catch(err) {
+        showError(err);
+    }
+    if(!stopProgram) {
+        console.log("done translating, showing pattern...");
+        var newPattern = new Pattern(NUM_ROWS, STITCHES_PER_ROW, currentPattern);
+        console.log(newPattern);
+        displayChart(newPattern);
+    }
 }
 
 /*
  * Patterns are assumed to be a set of directions for knitting, rather than a set of directions for the chart.
  * Therefore, the first row in a pattern is assumed to be the first row to knit.
  * In a typical knitting chart, this would be the bottom row of the chart.
- ***** NOTE TO SELF: changes in color are not accounted for in this pattern object. DO THIS WHEN TRANSLATING CODE TO PATTERN. *****
+ * Changes in color are not accounted for in this pattern object. This is done when translating code into the pattern represented here.
  */
+function Pattern(rows, stitchesPerRow, stitchList) {
+    this.rows = rows;
+    this.stitchesPerRow = stitchesPerRow;
+    this.stitchList = stitchList;
+}
+/*
 function Pattern(options) {
     var options = options ? options : {};
     this.rows = options.rows;
     this.stitchesPerRow = options.stitchesPerRow;
     this.stitchList = options.stitchList ? options.stitchList : [];
 }
-
+*/
 function isOdd(n) {
     return (n % 2 == 1);
 }
@@ -78,7 +146,6 @@ function displayChart(pattern) {
      *      row 3 (RS): 4 3 2 1 -> 3 2 1 0
      *      row 2 (WS): 1 2 3 4
      *      row 1 (RS): 4 3 2 1
-
      */
     // start at the nth row and work our way down
     var table = $("<table></table>").attr('id','patternTable');
@@ -103,6 +170,7 @@ function displayChart(pattern) {
     $("#display").append(table);
 }
 
+/*
 var pt = {
     rows:2,
     stitchesPerRow:3,
@@ -112,16 +180,16 @@ var pt = {
     // row 2: P K P
     // row 1: K P K
 }
-
+*/
 
 $(document).ready(function() {
 	$("button").click(function() {
 		var code = $("textarea").val();
-		eval(code);
+		translateCodeToPattern();
 
 
-        var testPattern = new Pattern(pt);
-        displayChart(pt);
+        //var testPattern = new Pattern(pt);
+        //displayChart(pt);
 	});
 
 });
