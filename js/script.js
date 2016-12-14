@@ -10,6 +10,7 @@ var CHART_PREVIEW_MODE = true;
 
 var KNIT_CONTENTS = "&nbsp;";
 var PURL_CONTENTS = "&#9679;";
+var TEXTAREA_NEWLINE = "\n";
 
 
 var STITCHES_PER_ROW;       // constant per knitting pattern
@@ -19,7 +20,7 @@ var currentPatternList = [];    // list for building patterns, row by row
 var currentRowList = [];        // list of stitches for current row
 var stopProgram = false;    // true if code executes without runtime error, false otherwise
 
-var currentPaletteColor = "gray";
+var currentPaletteColor = "white";
 
 /* Toggles between View/Edit mode on Chart mode. */
 function toggleChartPreviewMode() {
@@ -88,7 +89,7 @@ function setStitchesPerRow(numStitches) {
 
 function addStitches(numStitches, isPurl) {
     if(numStitches > STITCHES_PER_ROW) {
-        showError("Tried to add more stitches than fit in the row");
+            showError("Tried to add more stitches than fit in the row");
         // TODO: stop the program
     }
     for(var i = 0; i < numStitches; i++) {
@@ -251,7 +252,7 @@ function displayPattern(pattern, isChartView) {
                 // (note: this also allows it when the Windows key is pressed on Windows computers, but that's not a huge concern here)
                 var colorEditMode = event.ctrlKey || event.metaKeyCode;
                 var stitchId = $(this).attr('id');
-                console.log($(this).attr('id'));
+                //console.log($(this).attr('id'));
                 /*
                 if(colorEditMode) {
                     // clear the current class
@@ -294,14 +295,13 @@ function modifyChartStitch(stitchId, modifyColor) {
     } else {
         stitchIndex = chartCol;
     }
-    console.log("chart index: " + chartRow + ", " + stitchIndex);
     var listStitch = currentPatternList[chartRow][stitchIndex];
     if(modifyColor) {
         var colorToSet = $("#colorTableCurrent").attr('class');
-        if(colorToSet == "gray") return;
+        if(colorToSet == "white") return;
         // clear the current class
-        console.log(stitchId);
-        console.log("class: " + stitchCell.attr('class'));
+        // console.log(stitchId);
+        // console.log("class: " + stitchCell.attr('class'));
         stitchCell.removeClass(stitchCell.attr('class'));
         // set the new color
         stitchCell.addClass(colorToSet);
@@ -316,7 +316,7 @@ function modifyChartStitch(stitchId, modifyColor) {
 
         listStitch.isPurl = !listStitch.isPurl;
     }
-    console.log(listStitch);
+    // console.log(listStitch);
     //var stitch = currentPatternList[chartRow][0];
 }
 
@@ -369,18 +369,85 @@ $(document).ready(function() {
     });
 
     $("#generateCodeBtn").click(function() {
-        // make sure the dimension textboxes reflect the actual size of the chart
-        // (in case the user edits them but doesn't resize)
-        $("#numRowsInput").val($("#chartTable tr").length); // number of rows
-        $("#stitchesPerRowInput").val($($("#chartTable tr")[0]).children().length); // number of stitches per row (cols per row)
 
+        // (in case the user edits them but doesn't resize)
+        $("#numRowsInput").val(currentPatternList.length); // number of rows
+        $("#stitchesPerRowInput").val(currentPatternList[0].length); // number of stitches per row (cols per row)
+        generateCode();
     });
 
 
 });
 
+function getFuncCallText(funcName, param, paramIsStringValue) {
+    var valueWrapper =  (paramIsStringValue ? "\"" : "");
+    return (funcName + "(" + valueWrapper + param + valueWrapper + ");" + TEXTAREA_NEWLINE);
+}
+
+function generateCode() {
+    console.log("Generating code...");
+    var currentColor = currentPatternList[0][0].color;
+    var isPurlStitch = currentPatternList[0][0].isPurl;
+    // initial info
+    var codeText = getFuncCallText("setStitchesPerRow", STITCHES_PER_ROW, false);
+    if(currentColor != "white") {
+        codeText += getFuncCallText("setColor", currentColor, true);
+    }
+
+    /*
+     * POSSIBLE CHANGE SCENARIOS AND SAMPLE OUTPUT:
+     *     change color and stitch at the same time => knit(2); setColor("blue"); purl(2); 
+     *     change color, but not stitch => knit(2); setColor("blue"); knit(2);
+     *     change stitch only -> knit(2); purl(2);
+     */
+
+    console.log("at start, currentColor = " + currentColor + ", isPurlStitch = " + isPurlStitch);
+    for(var i = 0; i < currentPatternList.length; i++) {
+        var stitchCounter = 0;
+        codeText += "// Row " + (i+1) + TEXTAREA_NEWLINE;
+        console.log("*** ROW " + (i+1) + " ***");
+        isPurlStitch = currentPatternList[i][0].isPurl;
+        if(currentPatternList[i][0].color != currentColor) {
+            currentColor = currentPatternList[i][0].color;
+            codeText += getFuncCallText("setColor", currentColor, true);
+        }
+        for(var j = 0; j < STITCHES_PER_ROW; j++) {
+            var currentStitch = currentPatternList[i][j];
+            console.log(currentStitch);
+            //var isPurlStitch = currentStitch.isPurl;
+            console.log("currentColor = " + currentColor + ", isPurlStitch = " + isPurlStitch);
+            if(currentStitch.color != currentColor) {
+                console.log("HERE 1");
+                // 
+                codeText += getFuncCallText((isPurlStitch ? "purl" : "knit"), stitchCounter, false);
+                codeText += getFuncCallText("setColor", currentStitch.color, true);
+                currentColor = currentStitch.color;
+                isPurlStitch = currentStitch.isPurl; // might stay the same, might change; either way this becomes a starting point
+                stitchCounter = 1;
+            } else if(currentStitch.isPurl != isPurlStitch) {
+                // add function call for previous run of stitches
+                console.log("HERE 2");
+                codeText += getFuncCallText((isPurlStitch ? "purl" : "knit"), stitchCounter, false);
+                stitchCounter = 1;
+                isPurlStitch = currentStitch.isPurl;
+            } else {
+                console.log("HERE 3");
+                stitchCounter++;
+            }
+        }
+        if(stitchCounter == STITCHES_PER_ROW) {
+            codeText += getFuncCallText((isPurlStitch ? "purlRow" : "knitRow"), "", true);
+        } else {
+            codeText += getFuncCallText((isPurlStitch ? "purl" : "knit"), stitchCounter, false);
+        }
+    }
+
+    $("#codeText").val(codeText);
+    console.log("done generating code, text = " + codeText);
+}
+
 function getNewFillerStitch() {
-    return (new Stitch(false, "gray"));
+    return (new Stitch(false, "white"));
 }
 
 function resizeChart() {
@@ -411,25 +478,19 @@ function resizeChart() {
     }
 
     var chartTable = $("#chartTable tbody");
-    console.log("chartTable = ");
-    console.log(chartTable);
+    // console.log("chartTable = ");
+    // console.log(chartTable);
 
     // modify the visible and in-memory charts
 
-    
-    console.log("resizing chart: horizontalDiff = " + horizontalDiff + ", verticalDiff = " + verticalDiff + ", currentNumberRows = " + currentNumberRows + ", currentStitchesPerRow = " + STITCHES_PER_ROW);
-
-
-
     if(horizontalDiff > 0) {
         // need to increase the width => "grow" new stitches on each row from the left (since we go right->left)
-        // here we initialize new stitches as gray knit stitches
+        // here we initialize new stitches as white knit stitches
         for(var i = 0; i < currentNumberRows; i++) {
             var tableRow = $("#" + i + "-0").parent();
-            console.log(tableRow);
             for(var j = currentStitchesPerRow; j < newStitchesPerRow; j++) {
                 var newStitchCell = $("<td></td>").attr("id", i + "-" + j);
-                newStitchCell.addClass("gray");
+                newStitchCell.addClass("white");
                 newStitchCell.html(KNIT_CONTENTS);
                 tableRow.prepend(newStitchCell);
                 currentPatternList[i].push(getNewFillerStitch());
@@ -438,14 +499,10 @@ function resizeChart() {
 
     } else if(horizontalDiff < 0) {
         // need to decrease the width => remove extra stitches on each row from the left
-        console.log("current = " + currentStitchesPerRow + ", new = " + newStitchesPerRow);
         for(var i = 0; i < currentNumberRows; i++) {
-            console.log("row number = " + i);
-            console.log("current = " + currentStitchesPerRow + ", new = " + newStitchesPerRow);
             //for(var j = 0; j < newStitchesPerRow; j++) { console.log(j); }
             for(var j = currentStitchesPerRow; j >= newStitchesPerRow; j--) {
                 var cellToRemove = $("#" + i + "-" + j);
-                if(i == 0) console.log(cellToRemove);
                 //console.log("calling remove on #" + cellToRemove.attr('id'));
                 cellToRemove.remove();
             }
@@ -461,7 +518,7 @@ function resizeChart() {
             var rowString = "<tr>";
             var newPatternRow = [];
             for(var j = 0; j < STITCHES_PER_ROW; j++) {
-                var cellString = "<td class='gray' id='" + i + "-" + (STITCHES_PER_ROW - j - 1) + "'>" + KNIT_CONTENTS + "</td>";
+                var cellString = "<td class='white' id='" + i + "-" + (STITCHES_PER_ROW - j - 1) + "'>" + KNIT_CONTENTS + "</td>";
                 rowString += cellString;
                 newPatternRow.push(getNewFillerStitch());
             }
@@ -480,6 +537,4 @@ function resizeChart() {
         }
 
     } // third case (=) => do nothing
-    console.log("done resizing chart, new pattern = ");
-    console.log(currentPatternList);
 }
