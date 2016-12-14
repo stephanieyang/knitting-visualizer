@@ -2,9 +2,122 @@ textarea {
 	width:300px;
 	height:500px;
 	font-family:"Courier";
+	background-color: #EEEEEE;
+	margin-top:10px;
+	margin-left:10px;
+}
+
+/*#codeArea {
+	padding:30px;
+}*/
+
+.sizeInput {
+	width:30px;
+}
+
+.gray {
+	background-color: #EEEEEE;
+}
+
+#colorTable {
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+#colorTable td {
+	border:2px solid black;
+	text-align: center;
+	font-weight: bold;
+}
+
+#colorTable td.color {
+	width:50px;
+	height:50px;
+}
+
+#colorTableHeading {
+	padding:5px;
+	margin:5px;
+}
+
+#colorTableCurrent {
+	padding:10px;
+	width:200px;
+}
+
+#display {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+#color-red {
+	background-color: red;
+}
+#color-blue {
+	background-color: #0094FF;
+}
+#color-green {
+	background-color: #2FC63E;
+}
+#color-yellow {
+	background-color: yellow;
+}
+#color-purple {
+	background-color: purple;
+}
+#color-orange {
+	background-color: orange;
+}
+#color-pink {
+	background-color: pink;
+}
+#color-brown {
+	background-color: brown;
+}
+
+#legend {
+	padding-top:10px;
+	padding-bottom:10px;
+}
+
+#chartModeBtn {
+	float:right;
+	width:100px;
+	height:25px;
+}
+
+.legendSymbol {
+	border:1px solid black;
+	width:25px;
+	height:25px;
+	text-align: center;
+}
+
+.legendDesc {
+	padding-left:10px;
+}
+
+.spacing {
+	width:50px;
 }
 
 #patternTable td {
+	width:36px;
+	height:36px;
+	border:0px;
+	margin:0px;
+	padding:0px;
+}
+
+#patternTable .rightSidePurl, #patternTable .wrongSideKnit {
+	background-image: url('../img/rs_purl.png');
+}
+
+#patternTable .rightSideKnit, #patternTable .wrongSidePurl {
+	background-image: url('../img/rs_knit.png');
+}
+
+#chartTable td {
 	width:25px;
 	height:25px;
 	border:1px solid black;
@@ -16,11 +129,27 @@ textarea {
 .red {
 	background-color: red;
 }
-
 .blue {
 	background-color: #0094FF;
 }
-
+.green {
+	background-color: #2FC63E;
+}
+.yellow {
+	background-color: yellow;
+}
+.purple {
+	background-color: purple;
+}
+.orange {
+	background-color: orange;
+}
+.pink {
+	background-color: pink;
+}
+.brown {
+	background-color: brown;
+}
 .error {
 	color:red;
 }

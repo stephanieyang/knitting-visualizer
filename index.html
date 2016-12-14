@@ -4,21 +4,82 @@
 	<meta charset="UTF-8">
 	<title>Document</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	<link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 	<link type="text/css" rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-	<div id="entry">
-		<textarea id="codeText">setNumberOfRows(3);&#13;&#10;setStitchesPerRow(3);</textarea>
-		<button role="button" class="btn">Run</button>
+	<div class="container-fluid">
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4" id="codeArea">
+			<div id="chooseView">
+				<button role="button" id="chartViewBtn" class="btn">Chart View</button>
+				<button role="button" id="patternViewBtn" class="btn">Pattern View</button>
+			</div>
+			<div id="entry">
+				<textarea id="codeText">setStitchesPerRow(20);&#13;&#10;&#13;&#10;knitRow();&#13;&#10;purlRow();&#13;&#10;knitRow();&#13;&#10;purlRow();</textarea><br />
+				<button role="button" id="runCodeBtn" class="btn">Run Code &#8594;</button>
+			</div>
+			<div id="error"></div>
+			<div id="libraryLink">
+				<a href="library.html">Library</a>
+			</div>
+		</div>
+		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-8" id="displayArea">
+			<div id="legend">
+				<div class="row">
+					<div class="col-xs-11">
+						<table>
+							<tr>
+								<td class="legendSymbol">&nbsp;</td>
+								<td class="legendDesc">knit</td>
+								<td class="spacing">&nbsp;</td>
+								<td class="legendSymbol">&#9679;</td>
+								<td class="legendDesc">purl</td>
+							</tr>
+						</table>
+					</div>
+					<div class="col-xs-1">
+						<button role="button" id="chartModeBtn" class="btn">View</button>
+					</div>
+				</div>
+			</div>
+			<div id="displayHeading">
+				<h1>Knitting Pattern</h1>
+			</div>
+			<div id="display"></div>
+			<div id="editUI">
+				<span>Number of rows: <input type="text" name="numRowsInput" class="sizeInput" id="numRowsInput"></span><br />
+				<span>Stitches per row: <input type="text" name="stitchesPerRowInput" class="sizeInput" id="stitchesPerRowInput"></span><br />
+				<button role="button" id="resizeChartBtn" class="btn">&#8593; Resize Chart</button>
+				<br /><br />
+				<button role="button" id="generateCodeBtn" class="btn">&#8592; Generate Code</button>
+			</div>
+			<div id="colorPalette">
+				<table id="colorTable">
+					<tr>
+						<td colspan="8" id="colorTableHeading">Color Palette</td>
+					</tr>
+					<tr>
+						<td id="color-red" class="color" title="red">&nbsp;</td>
+						<td id="color-blue" class="color" title="blue">&nbsp;</td>
+						<td id="color-green" class="color" title="green">&nbsp;</td>
+						<td id="color-yellow" class="color" title="yellow">&nbsp;</td>
+						<td id="color-purple" class="color" title="purple">&nbsp;</td>
+						<td id="color-orange" class="color" title="orange">&nbsp;</td>
+						<td id="color-pink" class="color" title="pink">&nbsp;</td>
+						<td id="color-brown" class="color" title="brown">&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan="8" id="colorTableCurrent" class="gray">Current Color</td>
+					</tr>
+				</table>
+			</div>
+		</div>
 	</div>
-	<div id="display">
-		
 	</div>
-	<div id="error"></div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	<script src="js/script.js"></script>
 </body>
 </html>
