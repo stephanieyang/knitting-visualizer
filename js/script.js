@@ -14,24 +14,6 @@ function setUpChartEdit() {
             // (note: this also allows it when the Windows key is pressed on Windows computers, but that's not a huge concern here)
             var colorEditMode = event.ctrlKey || event.metaKeyCode;
             var stitchId = $(this).attr('id');
-            //console.log($(this).attr('id'));
-            /*
-            if(colorEditMode) {
-                // clear the current class
-                $(this).removeClass($(this).attr('class'));
-                // set the new color
-                var colorToSet = $("#colorTableCurrent").attr('class');
-                $(this).addClass(colorToSet);
-            } else {
-                // toggle knit/purl symbols
-                if($(this).html() == KNIT_CONTENTS) {   // knit stitch -> purl stitch
-                    $(this).html(PURL_CONTENTS);
-                } else {                                // purl stitch -> knit stitch
-                    $(this).html(KNIT_CONTENTS);
-                }
-            }
-            modifyChartStitch(stitchId);
-            */
             modifyChartStitch(stitchId, colorEditMode);
 
         } else {
@@ -77,8 +59,6 @@ function modifyChartStitch(stitchId, modifyColor) {
         // don't add anything if the palette color hasn't been chosen
         if(colorToSet == "gray") return;
         // clear the current class
-        // console.log(stitchId);
-        // console.log("class: " + stitchCell.attr('class'));
         stitchCell.removeClass(stitchCell.attr('class'));
         // set the new color
         stitchCell.addClass(colorToSet);
@@ -94,32 +74,9 @@ function modifyChartStitch(stitchId, modifyColor) {
         listStitch.isPurl = !listStitch.isPurl;
     }
 
-    // console.log(listStitch);
-    //var stitch = currentPatternList[chartRow][0];
 }
 
 $(document).ready(function() {
-    /*
-	$("#runCodeBtn").click(function() {
-		var code = $("textarea").val();
-		translateCodeToPattern();
-
-
-        //var testPattern = new Pattern(pt);
-        //displayChart(pt);
-	});
-
-    $("#chartViewBtn").click(function() {
-        setView(true);
-    });
-    
-    $("#patternViewBtn").click(function() {
-        setView(false);
-    });
-    */
-
-
-
     $("#chartModeBtn").click(function() {
         toggleChartPreviewMode();
     });
@@ -160,11 +117,6 @@ function generateCode() {
     var isPurlStitch = currentPatternList[0][0].isPurl;
     // initial info
     var codeText = getFuncCallText("setStitchesPerRow", STITCHES_PER_ROW, false);
-    /*
-    if(currentColor != "white") {
-        codeText += getFuncCallText("setColor", currentColor, true);
-    }
-    */    
     codeText += getFuncCallText("setColor", currentColor, true);
 
     /*
@@ -174,7 +126,6 @@ function generateCode() {
      *     change stitch only -> knit(2); purl(2);
      */
 
-    //console.log("at start, currentColor = " + currentColor + ", isPurlStitch = " + isPurlStitch);
     for(var i = 0; i < currentPatternList.length; i++) {
         var stitchCounter = 0;
         codeText += "// Row " + (i+1) + TEXTAREA_NEWLINE;
@@ -186,9 +137,6 @@ function generateCode() {
         }
         for(var j = 0; j < STITCHES_PER_ROW; j++) {
             var currentStitch = currentPatternList[i][j];
-            //console.log(currentStitch);
-            //var isPurlStitch = currentStitch.isPurl;
-            //console.log("currentColor = " + currentColor + ", isPurlStitch = " + isPurlStitch);
             if(currentStitch.color != currentColor) {
                 // 
                 codeText += getFuncCallText((isPurlStitch ? "purl" : "knit"), stitchCounter, false);
@@ -241,16 +189,12 @@ function resizeChart() {
     var verticalDiff = newNumberRows - currentNumberRows;
 
     // if no dimensions have been modified, skip all proceeding steps
-    //if((horizontalDiff == 0) && (verticalDiff == 0)) return;
     if((horizontalDiff == 0) && (verticalDiff == 0)) {
         console.log("no difference");
         return;
     }
 
     var chartTable = $("#chartTable tbody");
-    // console.log("chartTable = ");
-    // console.log(chartTable);
-
     // modify the visible and in-memory charts
 
     if(horizontalDiff > 0) {
@@ -273,7 +217,6 @@ function resizeChart() {
             //for(var j = 0; j < newStitchesPerRow; j++) { console.log(j); }
             for(var j = currentStitchesPerRow; j >= newStitchesPerRow; j--) {
                 var cellToRemove = $("#" + i + "-" + j);
-                //console.log("calling remove on #" + cellToRemove.attr('id'));
                 cellToRemove.remove();
             }
             currentPatternList[i] = currentPatternList[i].slice(0, newStitchesPerRow);

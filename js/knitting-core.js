@@ -94,6 +94,7 @@ function getStitchListFromChart(chart) {
 }
 
 function translateCodeToPattern() {
+    $("#error").html("");
     currentColor = "white";
     currentPatternList = [];
     numRows = 0;
