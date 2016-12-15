@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link type="text/css" rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+	<div id="container-fluid">
+		<div class="row">
+			<div id="library" class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+				<h1>Library & Reference</h1>
+				<div id="libraryContents">
+					<ul>
+						<li>
+							<h2>Programming</h2>
+							<ul>
+								<li><a href="#" id="variables">Variables</a></li>
+								<li><a href="#" id="functions">Functions</a></li>
+								<li><a href="#" id="loops">Loops</a></li>
+								<li><a href="#" id="conditionals">Conditionals</a></li>
+								<li><a href="#" id="kvcode">Knitting Visualizer Code</a></li>
+							</ul>
+						</li>
+						<li>
+							<h2>Stitches</h2>
+							<ul>
+								<li><a href="#" id="knit">Knit stitches</a></li>
+								<li><a href="#" id="purl">Purl stitches</a></li>
+								<li><a href="#" id="garter">Garter stitch</a></li>
+								<li><a href="#" id="stockinette">Stockinette stitch</a></li>
+								<li><a href="#" id="rib">Rib stitch</a></li>
+								<li><a href="#" id="seed">Seed stitch</a></li>
+								<li><a href="#" id="moss">Moss stitch</a></li>
+							</ul>
+						</li>
+						<li>
+							<h2>About Knitting</h2>
+							<ul>
+								<li><a href="#" id="sides">Right and wrong sides of knitting</a></li>
+								<li><a href="#" id="chart">How to read a knitting chart</a></li>
+							</ul>
+						</li>
+						<li>
+							<h2>Patterns</h2>
+							<ul>
+								<li><a href="#" id="coaster">Coaster</a></li>
+								<li><a href="#" id="scarf">Simple scarf</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div id="itemInfo" class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+				<h1>Information</h1>
+				<div id="itemInfoContents">
+					<div id="infoArea">
+						
+						<!-- Information (descriptions, explanations, video links, etc.) goes here -->
+					</div>
+					<div id="codeArea">
+						<textarea id="codeText" readyonly></textarea><br />
+						<button role="button" id="runCodeBtn" class="btn">Run Code</button>
+					</div>
+				</div>
+			</div>
+			<div id="displayArea" class="col-xs-12 col-sm-12 col-md-4 col-lg-6">
+				<h1>Visualizer</h1>
+				<div id="chooseView">
+					<button role="button" id="chartViewBtn" class="btn">Chart View</button>
+					<button role="button" id="patternViewBtn" class="btn">Pattern View</button>
+				</div>
+				<div id="display"></div>
+			</div>
+		</div>
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script src="js/knitting-core.js"></script>
+	<script src="js/libraryInfo.js"></script>
+	<script src="js/library.js"></script>
+</body>
+</html>

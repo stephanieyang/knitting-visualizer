@@ -1,5 +1,5 @@
 textarea {
-	width:300px;
+	width:95%;
 	height:500px;
 	font-family:"Courier";
 	background-color: #EEEEEE;
@@ -50,29 +50,48 @@ textarea {
 	margin-bottom: 10px;
 }
 
-#color-red {
-	background-color: red;
+#libraryLink {
+	margin-top: 10px;
+	margin-bottom:10px;
+	text-align: center;
 }
-#color-blue {
-	background-color: #0094FF;
+
+#libraryLink a {
+	font-size: x-large;
+	font-weight: bold;
 }
-#color-green {
-	background-color: #2FC63E;
+
+#color-white, .white {
+	background-color: white;
 }
-#color-yellow {
+#color-blue, .blue {
+	background-color: #00FFF6;
+}
+#color-green, .green {
+	background-color: #56FF6A;
+}
+#color-yellow, .yellow {
 	background-color: yellow;
 }
-#color-purple {
-	background-color: purple;
+#color-purple, .purple {
+	background-color: #C8B5FF;
 }
-#color-orange {
-	background-color: orange;
+#color-orange, .orange {
+	background-color: #FF9E5E;
 }
-#color-pink {
-	background-color: pink;
+#color-pink, .pink {
+	background-color: #FFBABA;
 }
-#color-brown {
-	background-color: brown;
+#color-lightblue, .lightblue {
+	background-color: #A3C6FF;
+}
+
+.gray {
+	background-color: gray;
+}
+
+.error {
+	color:red;
 }
 
 #legend {
@@ -110,7 +129,7 @@ textarea {
 }
 
 #patternTable .rightSidePurl, #patternTable .wrongSideKnit {
-	background-image: url('../img/rs_purl.png');
+	background-image: url('../img/rs_purl_translucent.png');
 }
 
 #patternTable .rightSideKnit, #patternTable .wrongSidePurl {
@@ -124,32 +143,4 @@ textarea {
 	margin:0px;
 	padding: 0px;
 	text-align: center;
-}
-
-.red {
-	background-color: red;
-}
-.blue {
-	background-color: #0094FF;
-}
-.green {
-	background-color: #2FC63E;
-}
-.yellow {
-	background-color: yellow;
-}
-.purple {
-	background-color: purple;
-}
-.orange {
-	background-color: orange;
-}
-.pink {
-	background-color: pink;
-}
-.brown {
-	background-color: brown;
-}
-.error {
-	color:red;
 }

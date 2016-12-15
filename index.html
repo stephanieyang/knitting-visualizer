@@ -15,14 +15,14 @@
 				<button role="button" id="chartViewBtn" class="btn">Chart View</button>
 				<button role="button" id="patternViewBtn" class="btn">Pattern View</button>
 			</div>
+			<div id="libraryLink">
+				<a href="library.html" target="_blank">Library</a>
+			</div>
 			<div id="entry">
 				<textarea id="codeText">setStitchesPerRow(20);&#13;&#10;&#13;&#10;knitRow();&#13;&#10;purlRow();&#13;&#10;knitRow();&#13;&#10;purlRow();</textarea><br />
 				<button role="button" id="runCodeBtn" class="btn">Run Code &#8594;</button>
 			</div>
 			<div id="error"></div>
-			<div id="libraryLink">
-				<a href="library.html">Library</a>
-			</div>
 		</div>
 		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-8" id="displayArea">
 			<div id="legend">
@@ -60,14 +60,14 @@
 						<td colspan="8" id="colorTableHeading">Color Palette</td>
 					</tr>
 					<tr>
-						<td id="color-red" class="color" title="red">&nbsp;</td>
+						<td id="color-white" class="color" title="white">&nbsp;</td>
 						<td id="color-blue" class="color" title="blue">&nbsp;</td>
 						<td id="color-green" class="color" title="green">&nbsp;</td>
 						<td id="color-yellow" class="color" title="yellow">&nbsp;</td>
 						<td id="color-purple" class="color" title="purple">&nbsp;</td>
 						<td id="color-orange" class="color" title="orange">&nbsp;</td>
 						<td id="color-pink" class="color" title="pink">&nbsp;</td>
-						<td id="color-brown" class="color" title="brown">&nbsp;</td>
+						<td id="color-lightblue" class="color" title="lightblue">&nbsp;</td>
 					</tr>
 					<tr>
 						<td colspan="8" id="colorTableCurrent" class="gray">Current Color</td>
@@ -80,6 +80,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script src="js/knitting-core.js"></script>
 	<script src="js/script.js"></script>
 </body>
 </html>
