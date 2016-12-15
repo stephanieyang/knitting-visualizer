@@ -4,9 +4,9 @@
 var CHART_PREVIEW_MODE = true;
 
 
-var currentPaletteColor = "gray";
+var currentPaletteColor = "white";
 
-
+/* Re-add listeners for the editable chart. */
 function setUpChartEdit() {
     $("#chartTable td").click(function(event) {
         if(!CHART_PREVIEW_MODE) {
@@ -19,7 +19,8 @@ function setUpChartEdit() {
         } else {
             console.log('clicked in preview mode');
         }
-    });}
+    });
+}
 
 
 /* Toggles between View/Edit mode on Chart mode. */
@@ -44,6 +45,7 @@ function toggleChartPreviewMode() {
  * modifyColor = true iff changing the cell color on CTRL/meta + click, false (toggling knit/purl) otherwise
  */
 function modifyChartStitch(stitchId, modifyColor) {
+    if(CHART_PREVIEW_MODE) return;
     var chartRow = stitchId.split("-")[0];
     var chartCol = stitchId.split("-")[1];
     var stitchIndex;
@@ -65,6 +67,7 @@ function modifyChartStitch(stitchId, modifyColor) {
         listStitch.color = colorToSet;
     } else {
         // toggle knit/purl symbols
+        //console.log("currently: " + ((stitchCell.html() == KNIT_CONTENTS) ? "knit" : "purl"));
         if(stitchCell.html() == KNIT_CONTENTS) {   // knit stitch -> purl stitch
             stitchCell.html(PURL_CONTENTS);
         } else {                                // purl stitch -> knit stitch
@@ -77,6 +80,12 @@ function modifyChartStitch(stitchId, modifyColor) {
 }
 
 $(document).ready(function() {
+    $("#runCodeBtn").click(function() {
+        if(!CHART_PREVIEW_MODE) {
+            setUpChartEdit();
+        }
+    });
+
     $("#chartModeBtn").click(function() {
         toggleChartPreviewMode();
     });
@@ -154,7 +163,7 @@ function generateCode() {
             }
         }
         if(stitchCounter == STITCHES_PER_ROW) {
-            codeText += getFuncCallText((isPurlStitch ? "purlRow" : "knitRow"), "", true);
+            codeText += getFuncCallText((isPurlStitch ? "purlRow" : "knitRow"), "", false);
         } else {
             codeText += getFuncCallText((isPurlStitch ? "purl" : "knit"), stitchCounter, false);
         }
@@ -170,7 +179,7 @@ function getNewFillerStitch() {
 
 function resizeChart() {
     if(!CHART_VIEW || CHART_PREVIEW_MODE) {
-        showError("Can't resize: CHART_VIEW = " + CHART_VIEW + ", CHART_PREVIEW_MODE = " + CHART_PREVIEW_MODE);
+        showError("Can't resize: are you in Chart View or Chart Edit mode?");
         // TODO: more helpful error message?
         return;
     }
@@ -251,6 +260,6 @@ function resizeChart() {
 
     } // third case (=) => do nothing
 
-    
+    console.log("done in resize, setting up listeners...");
     setUpChartEdit();
 }
