@@ -23,7 +23,7 @@ function Stitch(isPurl, color) {
 
 
 function showError(errorMsg) {
-    $("#error").append("<p class='error'" + errorMsg + "</p>");
+    $("#error").append("<p class='error'>" + errorMsg + "</p>");
     console.log(errorMsg);
 }
 

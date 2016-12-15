@@ -49,8 +49,6 @@ function toggleChartPreviewMode() {
         $("#chartModeBtn").html("Edit");
     }
 
-    console.log("CHART_VIEW = " + CHART_VIEW + ", CHART_PREVIEW_MODE =" + CHART_PREVIEW_MODE);
-
     if(CHART_VIEW) {
         // We just now created this table, so add a listener for Chart Edit Mode
         setUpChartEdit();

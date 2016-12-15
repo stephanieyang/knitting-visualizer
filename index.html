@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Document</title>
+	<title>Knitting Visualizer</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 	<link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 	<link type="text/css" rel="stylesheet" href="css/styles.css">
@@ -12,22 +12,22 @@
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4" id="codeArea">
 			<div id="chooseView">
-				<button role="button" id="chartViewBtn" class="btn">Chart View</button>
-				<button role="button" id="patternViewBtn" class="btn">Pattern View</button>
+				<button role="button" id="chartViewBtn" class="btn btn-info">Chart View</button>
+				<button role="button" id="patternViewBtn" class="btn btn-info">Pattern View</button>
 			</div>
 			<div id="libraryLink">
 				<a href="library.html" target="_blank">Library</a>
 			</div>
 			<div id="entry">
 				<textarea id="codeText">setStitchesPerRow(20);&#13;&#10;&#13;&#10;knitRow();&#13;&#10;purlRow();&#13;&#10;knitRow();&#13;&#10;purlRow();</textarea><br />
-				<button role="button" id="runCodeBtn" class="btn">Run Code &#8594;</button>
+				<button role="button" id="runCodeBtn" class="btn btn-primary">Run Code &#8594;</button>
 			</div>
 			<div id="error"></div>
 		</div>
-		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-8" id="displayArea">
+		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" id="displayArea">
 			<div id="legend">
 				<div class="row">
-					<div class="col-xs-11">
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 						<table>
 							<tr>
 								<td class="legendSymbol">&nbsp;</td>
@@ -35,11 +35,10 @@
 								<td class="spacing">&nbsp;</td>
 								<td class="legendSymbol">&#9679;</td>
 								<td class="legendDesc">purl</td>
+								<td class="spacing">&nbsp;</td>
+								<td><button role="button" id="chartModeBtn" class="btn btn-info">View</button></td>
 							</tr>
 						</table>
-					</div>
-					<div class="col-xs-1">
-						<button role="button" id="chartModeBtn" class="btn">View</button>
 					</div>
 				</div>
 			</div>
@@ -49,10 +48,10 @@
 			<div id="display"></div>
 			<div id="editUI">
 				<span>Number of rows: <input type="text" name="numRowsInput" class="sizeInput" id="numRowsInput"></span><br />
-				<span>Stitches per row: <input type="text" name="stitchesPerRowInput" class="sizeInput" id="stitchesPerRowInput"></span><br />
-				<button role="button" id="resizeChartBtn" class="btn">&#8593; Resize Chart</button>
+				<span>Stitches per row: <input type="text" name="stitchesPerRowInput" class="sizeInput" id="stitchesPerRowInput"></span><br /><br />
+				<button role="button" id="resizeChartBtn" class="btn btn-primary">&#8593; Resize Chart</button>
 				<br /><br />
-				<button role="button" id="generateCodeBtn" class="btn">&#8592; Generate Code</button>
+				<button role="button" id="generateCodeBtn" class="btn btn-primary">&#8592; Generate Code</button>
 			</div>
 			<div id="colorPalette">
 				<table id="colorTable">
@@ -73,6 +72,13 @@
 						<td colspan="8" id="colorTableCurrent" class="gray">Current Color</td>
 					</tr>
 				</table>
+			</div>
+			<div id="directions">
+				<p>Click "Run Code" to generate a knitting pattern based on your code.</p>
+				<p>Click "Chart View" and "Pattern View" to toggle between the symbolic knitting chart and the preview of the knitted piece.</p>
+				<p>Click "View" in the top right to toggle between View and Edit mode on the symbolic knitting chart.</p>
+				<p>Edit mode will allow you to modify the stitch type and color to manually edit the symbolic knitting chart. Toggle knit/purl by clicking. CTRL+click on windows, command+click on Mac to color a stitch according to the palette's current color.</p>
+				<p>Click "Generate code" to create programming code based on your knitting pattern!</p>
 			</div>
 		</div>
 	</div>
