@@ -2,7 +2,7 @@ textarea {
 	width:95%;
 	height:500px;
 	font-family:"Courier";
-	background-color: #EEEEEE;
+	background-color: #F9F9F9;
 	margin-top:10px;
 	margin-left:10px;
 }
@@ -111,7 +111,7 @@ textarea {
 
 #chartModeBtn {
 	float:right;
-	width:100px;
+	width:250px;
 	height:25px;
 }
 
@@ -152,5 +152,9 @@ textarea {
 	border:1px solid black;
 	margin:0px;
 	padding: 0px;
+	text-align: center;
+}
+
+#chooseView {
 	text-align: center;
 }

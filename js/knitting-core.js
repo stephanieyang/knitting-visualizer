@@ -6,6 +6,8 @@ var CHART_VIEW = true;
 
 var KNIT_CONTENTS = "&nbsp;";
 var PURL_CONTENTS = "&#9679;";
+var RIGHT_POINTING_ARROW = "&#8594;";
+var LEFT_POINTING_ARROW = "&#8592;";
 var TEXTAREA_NEWLINE = "\n";
 
 
@@ -77,16 +79,6 @@ function purlRow() {
     }
     purl(STITCHES_PER_ROW);
 }
-
-function translateChartToCode() {
-    var table = $("#chartTable");
-    var numChartRows = $("#chartTable tr").val();
-    for(var i = 0; i < numChartRows; i++) {
-
-    }
-}
-
-
 
 function getStitchListFromChart(chart) {
     var stitches = [];
@@ -161,6 +153,13 @@ function displayPattern(pattern, isChartView) {
         var rowIndex = row - 1;
         var rowIsRightSide = isOdd(row);
         // depending on right side/wrong side
+        // border arrows for marking which side to start on
+        var leftMarkerCol = $("<td></td>");
+        leftMarkerCol.addClass("white");
+        if(!rowIsRightSide && isChartView) { // WS
+            leftMarkerCol.html(RIGHT_POINTING_ARROW);
+        }
+        tableRow.append(leftMarkerCol);
         for(var stitchNum = 1; stitchNum <= pattern.stitchesPerRow; stitchNum++) {
             var rowCol = $("<td></td>");
 
@@ -184,6 +183,13 @@ function displayPattern(pattern, isChartView) {
             rowCol.addClass(stitch.color);
             tableRow.append(rowCol);
         }
+        // border arrows for marking which side to start on
+        var rightMarkerCol = $("<td></td>");
+        rightMarkerCol.addClass("white");
+        if(rowIsRightSide && isChartView) { // WS
+            rightMarkerCol.html(LEFT_POINTING_ARROW);
+        }
+        tableRow.append(rightMarkerCol);
         table.append(tableRow);
     }
     $("#display").empty();
@@ -198,7 +204,6 @@ function showPatternView() {
 
 function showChartView() {
     var pattern = new Pattern(numRows, STITCHES_PER_ROW, currentPatternList);
-    console.log(pattern);
     displayPattern(pattern, true);
 }
 

@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Knitting Visualizer - this is a change</title>
+	<title>Knitting Visualizer</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 	<link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 	<link type="text/css" rel="stylesheet" href="css/styles.css">
@@ -14,13 +14,14 @@
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4" id="codeArea">
 			<div id="chooseView">
-				<button role="button" id="chartViewBtn" class="btn btn-info">Chart View</button>
-				<button role="button" id="patternViewBtn" class="btn btn-info">Pattern View</button>
+				<button role="button" id="chartViewBtn" class="btn btn-lg btn-info">Chart View</button>
+				<button role="button" id="patternViewBtn" class="btn btn-lg btn-info">Pattern View</button>
 			</div>
 			<div id="libraryLink">
-				<a href="library.html" target="_blank">Library</a>
+				<a href="library.html" target="_blank">Go to Knitting & Code Library</a>
 			</div>
 			<div id="entry">
+				<h1>Code Editor</h1>
 				<textarea id="codeText">setStitchesPerRow(20);&#13;&#10;setColor("green");&#13;&#10;&#13;&#10;knitRow();&#13;&#10;purlRow();&#13;&#10;knitRow();&#13;&#10;purlRow();</textarea><br />
 				<button role="button" id="runCodeBtn" class="btn btn-primary">Run Code &#8594;</button>
 			</div>
@@ -38,7 +39,7 @@
 								<td class="legendSymbol">&#9679;</td>
 								<td class="legendDesc">purl</td>
 								<td class="spacing">&nbsp;</td>
-								<td><button role="button" id="chartModeBtn" class="btn btn-info">View</button></td>
+								<td><button role="button" id="chartModeBtn" class="btn btn-info">Go to Edit Mode</button></td>
 							</tr>
 						</table>
 					</div>
@@ -49,8 +50,8 @@
 			</div>
 			<div id="display"></div>
 			<div id="editUI">
-				<span>Number of rows: <input type="text" name="numRowsInput" class="sizeInput" id="numRowsInput"></span><br />
-				<span>Stitches per row: <input type="text" name="stitchesPerRowInput" class="sizeInput" id="stitchesPerRowInput"></span><br /><br />
+				<span>Number of rows: <input type="text" name="numRowsInput" class="sizeInput" id="numRowsInput" disabled></span><br />
+				<span>Stitches per row: <input type="text" name="stitchesPerRowInput" class="sizeInput" id="stitchesPerRowInput" disabled></span><br /><br />
 				<button role="button" id="resizeChartBtn" class="btn btn-primary">&#8593; Resize Chart</button>
 				<br /><br />
 				<button role="button" id="generateCodeBtn" class="btn btn-primary">&#8592; Generate Code</button>

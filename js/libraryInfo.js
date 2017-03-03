@@ -52,11 +52,11 @@ var infoLibrary = {
 		code:"",
 	},
 	"chart":{
-		description:"<p>Knitting charts are typically read <strong>from the bottom upwards</strong>.</p><p>When knitting on the right side, read from right to left.</p><p>When knitting on the wrong side, read from left to right.</p>",
-		code:"",
+		description:"<p>Knitting charts are typically read <strong>from the bottom upwards</strong>.</p><p>When knitting on the right side, read from right to left.</p><p>When knitting on the wrong side, read from left to right.</p><p>In the following pattern, the green rows are knit on the right side (right to left) and the purple rows are knit on the wrong side (left to right).</p><p>In this visualizer's chart view, the arrows at the sides of the pattern help indicate which direction you'll be knitting in.</p>",
+		code:"setStitchesPerRow(20);\n\nsetColor(\"green\");\nknitRow();\nsetColor(\"purple\");\nknitRow();\nsetColor(\"green\");\nknitRow();\nsetColor(\"purple\");\nknitRow();\nsetColor(\"green\");\nknitRow();\nsetColor(\"purple\");\nknitRow();\n",
 	},
 	"scarf":{
-		description:"<p>Here's a pattern for a simple scarf: a stockinette scarf with a seed stitch to discourage curling or deformation based on the different stitches. (In reality you'd need a lot more than 38 rows for a scarf, but that pattern will be recognizable by then!)</p>",
+		description:"<p>Here's a pattern for a simple scarf: a stockinette scarf with a seed stitch border to discourage curling or deformation based on the different stitches. (In reality you'd need a lot more than 38 rows for a scarf, but that pattern will be recognizable by then!)</p>",
 		code:"setStitchesPerRow(24);\nsetColor(\"purple\");\n// Row 1\n\nfunction seedStitchBorder(numStitches, isRS) {\n  for(var i = 0; i < numStitches/2; i++) {\n    if(isRS) {\n      knit(1);\n      purl(1);\n    } else {\n      purl(1);\n      knit(1);\n    }\n  }\n}\n\nfor(var i = 0; i < 4; i++) {\n  seedStitchBorder(24, (i % 2 == 0));\n}\nfor(var i = 0; i < 30; i++) {\n  seedStitchBorder(4, (i % 2 == 0));\n  if(i % 2 == 0) { // RS row\n    knit(16);\n  } else {\n    purl(16);\n  }\n  seedStitchBorder(4, (i % 2 == 0));\n}\n\nfor(var i = 0; i < 4; i++) {\n  seedStitchBorder(24, (i % 2 == 0));\n}	"
 	},
 	"coaster":{

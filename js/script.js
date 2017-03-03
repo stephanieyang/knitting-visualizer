@@ -27,9 +27,13 @@ function setUpChartEdit() {
 function toggleChartPreviewMode() {
     CHART_PREVIEW_MODE = !CHART_PREVIEW_MODE;
     if(CHART_PREVIEW_MODE) {
-        $("#chartModeBtn").html("View");
+        $("#chartModeBtn").html("Go to Edit Mode");
+        $("#numRowsInput").attr("disabled", true);
+        $("#stitchesPerRowInput").attr("disabled", true);
     } else {
-        $("#chartModeBtn").html("Edit");
+        $("#chartModeBtn").html("Go to View Mode");
+        $("#numRowsInput").attr("disabled", false);
+        $("#stitchesPerRowInput").attr("disabled", false);
     }
 
     if(CHART_VIEW) {
@@ -204,19 +208,20 @@ function resizeChart() {
     }
 
     var chartTable = $("#chartTable tbody");
-    // modify the visible and in-memory charts
+    // modify the in-memory chart
 
     if(horizontalDiff > 0) {
-        // need to increase the width => "grow" new stitches on each row from the left (since we go right->left)
+        // need to increase the width => "grow" new stitches on each row from the left (since we go right->left on the RS)
         // here we initialize new stitches as white knit stitches
         for(var i = 0; i < currentNumberRows; i++) {
-            var tableRow = $("#" + i + "-0").parent();
             for(var j = currentStitchesPerRow; j < newStitchesPerRow; j++) {
-                var newStitchCell = $("<td></td>").attr("id", i + "-" + j);
-                newStitchCell.addClass("white");
-                newStitchCell.html(KNIT_CONTENTS);
-                tableRow.prepend(newStitchCell);
-                currentPatternList[i].push(getNewFillerStitch());
+                if(isOdd(i)) {
+                    currentPatternList[i].unshift(getNewFillerStitch()); // prepend stitches (L -> R)
+
+                } else {
+                    currentPatternList[i].push(getNewFillerStitch()); // append stitches (L <- R)
+                }
+                
             }
         }
 
@@ -224,11 +229,17 @@ function resizeChart() {
         // need to decrease the width => remove extra stitches on each row from the left
         for(var i = 0; i < currentNumberRows; i++) {
             //for(var j = 0; j < newStitchesPerRow; j++) { console.log(j); }
-            for(var j = currentStitchesPerRow; j >= newStitchesPerRow; j--) {
-                var cellToRemove = $("#" + i + "-" + j);
-                cellToRemove.remove();
+            console.log(newNumberRows);
+            console.log(newStitchesPerRow);
+            if(isOdd(i)) {
+                currentPatternList[i] = currentPatternList[i].slice(Math.abs(horizontalDiff)); // slice stitches L -> R
+            } else {
+                console.log("row =");
+                console.log(currentPatternList[i]);
+                currentPatternList[i] = currentPatternList[i].slice(0, newStitchesPerRow); // slice stitches L <- R
             }
-            currentPatternList[i] = currentPatternList[i].slice(0, newStitchesPerRow);
+
+            
         }
 
         
@@ -237,29 +248,21 @@ function resizeChart() {
     if(verticalDiff > 0) {
         // need to increase the height => add new rows onto the end (vertical top)
         for(var i = currentNumberRows; i < newNumberRows; i++) {
-            var rowString = "<tr>";
             var newPatternRow = [];
             for(var j = 0; j < STITCHES_PER_ROW; j++) {
-                var cellString = "<td class='white' id='" + i + "-" + (STITCHES_PER_ROW - j - 1) + "'>" + KNIT_CONTENTS + "</td>";
-                rowString += cellString;
                 newPatternRow.push(getNewFillerStitch());
             }
-            rowString += "</tr>";
-            var rowToAdd = $(rowString);
-            chartTable.prepend(rowToAdd);
             currentPatternList.push(newPatternRow);
         }
 
     } else if(verticalDiff < 0) {
         // need to decrease the height => remove extra rows at the end (vertical top)
-        for(var i = newNumberRows; i < currentNumberRows; i++) {
-            var tableRow = $("#" + i + "-0").parent();
-            tableRow.remove();
-            currentPatternList = currentPatternList.slice(0, newNumberRows);
-        }
+        currentPatternList = currentPatternList.slice(0, newNumberRows);
 
     } // third case (=) => do nothing
 
     console.log("done in resize, setting up listeners...");
+    var pattern = new Pattern(newNumberRows, newStitchesPerRow, currentPatternList);
+    displayPattern(pattern, CHART_VIEW);
     setUpChartEdit();
 }
